@@ -1,190 +1,48 @@
-let _gridButton = [];
-
-_gridButton = [
-	{
-		name	: 'percent',
-		value 	: '%',
-		type 	: 'percent'
-	},
-	{
-		name	: 'sqr',
-		value 	: '√',
-		type 	: 'sqroot'
-	},
-	{
-		name	: 'sqe',
-		value 	: 'x<sup>2</sup>',
-		type 	: 'square',
-		style 	: 'style="font-family: \'Lucida Calligraphy\', serif;"'
-	},
-	{
-		name 	: 'rpl',
-		value 	: '<sup>1</sup>/<sub style=\'position:relative;top:-1px;\'>x</sub>',
-		type 	: 'reciprocal',
-		style 	: 'style="font-family: \'Lucida Calligraphy\', serif;"'
-	},
-	{
-		name	: 'cdl',
-		value 	: 'CE',
-		type 	: 'clear'
-	},
-	{
-		name	: 'del',
-		value 	: 'C',
-		type 	: 'clear'
-	},
-	{
-		name	: 'bsp',
-		value 	: '<i class=\'fa fa-backspace\'></i>',
-		type 	: 'clear',
-		code 	: [8, null]
-	},
-	{
-		name	: 'div',
-		value 	: '÷',
-		type 	: 'operand',
-		code 	: [111, null]
-	},
-	{
-		name	: 'num_7',
-		value 	: 7,
-		type 	: 'number',
-		code 	: [55, 103]
-	},
-	{
-		name	: 'num_8',
-		value 	: 8,
-		type 	: 'number',
-		code 	: [56, 104]
-	},
-	{
-		name	: 'num_9',
-		value 	: 9,
-		type 	: 'number',
-		code 	: [57, 105]
-	},
-	{
-		name	: 'tmz',
-		value 	: '×',
-		type 	: 'operand',
-		code 	: [106, null]
-	},
-	{
-		name	: 'num_4',
-		value 	: 4,
-		type 	: 'number',
-		code 	: [52, 100]
-	},
-	{
-		name	: 'num_5',
-		value 	: 5,
-		type 	: 'number',
-		code 	: [53, 101]
-	},
-	{
-		name	: 'num_6',
-		value 	: 6,
-		type 	: 'number',
-		code 	: [54, 102]
-	},
-	{
-		name	: 'mns',
-		value 	: '-',
-		type 	: 'operand',
-		code 	: [109, null]
-	},
-	{
-		name	: 'num_1',
-		value 	: 1,
-		type 	: 'number',
-		code 	: [49, 97]
-	},
-	{
-		name	: 'num_2',
-		value 	: 2,
-		type 	: 'number',
-		code 	: [50, 98]
-	},
-	{
-		name	: 'num_3',
-		value 	: 3,
-		type 	: 'number',
-		code 	: [51, 99]
-	},
-	{
-		name	: 'add',
-		value 	: '+',
-		type 	: 'operand',
-		code 	: [107, null]
-	},
-	{
-		name	: 'add',
-		value 	: '±',
-		type 	: 'negpos'
-	},
-	{
-		name	: 'num_0',
-		value 	: 0,
-		type 	: 'number',
-		code 	: [48, 96]
-	},
-	{
-		name	: 'dot',
-		value 	: '.',
-		type 	: 'dot',
-		code 	: [46, 110]
-	},
-	{
-		name	: 'eqz',
-		value 	: '=',
-		type 	: 'equals',
-		code 	: [13, null]
-	}
-];
-
+let _gridButton = [
+	{ name: 'cdl', value: 'CE', type: 'clear' },
+	{ name: 'del', value: 'C', type: 'clear' },
+	{ name: 'bsp', value: '<i class=\'fa fa-backspace\'></i>', type: 'clear', code: [8, null] },
+	{ name: 'div', value: '÷', type: 'operand', code: [111, null] },
+	{ name: 'num_7', value: 7, type: 'number', code: [55, 103] },
+	{ name: 'num_8', value: 8, type: 'number', code: [56, 104] },
+	{ name: 'num_9', value: 9, type: 'number', code: [57, 105] },
+	{ name: 'tmz', value: '×', type: 'operand', code: [106, null] },
+	{ name: 'num_4', value: 4, type: 'number', code: [52, 100] },
+	{ name: 'num_5', value: 5, type: 'number', code: [53, 101] },
+	{ name: 'num_6', value: 6, type: 'number', code: [54, 102] },
+	{ name: 'mns', value: '-', type: 'operand', code: [109, null] },
+	{ name: 'num_1', value: 1, type: 'number', code: [49, 97] },
+	{ name: 'num_2', value: 2, type: 'number', code: [50, 98] },
+	{ name: 'num_3', value: 3, type: 'number', code: [51, 99] },
+	{ name: 'add', value: '+', type: 'operand', code: [107, null] },
+	{ name: 'add', value: '±', type: 'negpos' },
+	{ name: 'num_0', value: 0, type: 'number', code: [48, 96] },
+	{ name: 'dot', value: '.', type: 'dot', code: [46, 110] },
+	{ name: 'eqz', value: '=', type: 'equals', code: [13, null] }
+  ];
 
 let _calc_main_body = document.querySelector('.calc-main-body');
 
 let drawBtnGrid = function (options) {
 	let btnArr = options.btns || _gridButton;
 	let calMode = options.mode || 'basic';
-	let cMode = 0;
-	switch(calMode) {
-		case 'basic':
-			cMode = 0;
-			break;
-		case 'advanced':
-			cMode = 1;
-			break;
-
-		default: 
-			cMode = 0;
-			break;
-	}
+	let cMode = calMode === 'advanced' ? 1 : 0;
 
 	for (let i = 0; i < btnArr.length; i++) {
-		let _btn_hover = 'w3-hover-light-grey';
-		let _btn_bg = 'w3-glass';
-		let _btn_style = '';
-		let _btn_value = '';
-		if (btnArr[i].type=='operand' || btnArr[i].type=='equals') {
-			_btn_hover = 'w3-hover-blue';
-			_btn_value = btnArr[i].value;
-		}
-		if (btnArr[i].type=='number') {
-			_btn_bg = 'w3-white';
-			_btn_style += '  font-weight:bold;  ';
-			_btn_value = btnArr[i].value;
-		} else {
-			_btn_style += '  font-weight:lighter;  ';
-		}
-		if (btnArr[i].type=='dot' || btnArr[i].type=='percent' || btnArr[i].type=='sqroot' || btnArr[i].type=='reciprocal' || btnArr[i].type=='clear') {
-			_btn_value = btnArr[i].value;
-		}
-			_calc_main_body.innerHTML += '<button style="'+_btn_style+'" class="w3-button '+btnArr[i].type+' '+_btn_bg+' '+_btn_hover+'" value="'+_btn_value+'">'+btnArr[i].value+'</button>';
-	}
+		let _btn_hover = btnArr[i].type === 'operand' || btnArr[i].type === 'equals' ? 'w3-hover-blue' : 'w3-hover-light-grey';
+		let _btn_bg = btnArr[i].type === 'number' ? 'w3-white' : 'w3-glass';
+		let _btn_style = btnArr[i].type === 'number' ? 'font-weight:bold;' : 'font-weight:lighter;';
+		let _btn_value = (btnArr[i].type === 'operand' || btnArr[i].type === 'equals') ? btnArr[i].value : btnArr[i].value;
 
-}
+		if (btnArr[i].type === 'dot' || btnArr[i].type === 'clear') {
+			_btn_value = btnArr[i].value;
+		}
+
+		let buttonHTML = `<button style="${_btn_style}" class="w3-button ${btnArr[i].type} ${_btn_bg} ${_btn_hover}" value="${_btn_value}">${btnArr[i].value}</button>`;
+		_calc_main_body.insertAdjacentHTML('beforeend', buttonHTML);
+	}
+};
+
 drawBtnGrid({
 	mode : 'basic',
 	btns : _gridButton
@@ -236,41 +94,6 @@ negPos.addEventListener('click', function(){
 			_negx.unshift('-');
 		}
 		currentDisplay.value = _negx.join('');
-	}
-});
-
-let _percent = document.querySelector('.percent');
-_percent.addEventListener('click', function(){
-	currentDisplay.value /= 100;
-});
-
-let _sqroot = document.querySelector('.sqroot');
-_sqroot.addEventListener('click', ()=>{
-	let aValue = currentDisplay.value;
-	if(aValue == '' || aValue == 0){
-		currentDisplay.value = 0;
-	} else {
-		currentDisplay.value = Math.sqrt(currentDisplay.value);
-	}
-});
-
-let _square = document.querySelector('.square');
-_square.addEventListener('click', ()=>{
-	const aValue = currentDisplay.value;
-	if(aValue == '' || aValue == 0){
-		currentDisplay.value = 0;
-	} else {
-		currentDisplay.value = Math.pow(currentDisplay.value, 2);
-	}
-});
-
-let _reciprocal = document.querySelector('.reciprocal');
-_reciprocal.addEventListener('click', ()=>{
-	const aValue = currentDisplay.value;
-	if(aValue == '' || aValue == 0){
-		currentDisplay.value = 0;
-	} else {
-		currentDisplay.value = (1 / currentDisplay.value);
 	}
 });
 
@@ -429,45 +252,37 @@ clearHistoryBtn.addEventListener('click', function() {
 	document.querySelector('#historyTab').innerHTML = '<span id="emptyPill">There\'s no history yet</span>';
 });
 
-let createHistoryPill = function (_data) {
-	let _solution = _data.solution || null;
-	let _answer = _data.answer || null;
-
-	let empty_pill = document.querySelector('#emptyPill');
-	if (empty_pill) {
-		empty_pill.style.display='none';
+function createHistoryPill(data) {
+	const solution = data.solution || null;
+	const answer = data.answer || null;
+  
+	const emptyPill = document.querySelector('#emptyPill');
+	if (emptyPill) {
+	  emptyPill.style.display = 'none';
 	}
-
-	let paraDiv = document.createElement("div");
-	paraDiv.setAttribute("class","w3-bar-item w3-right-align w3-hover-light-grey history-pill");
-
-	let soluDiv = document.createElement("div");
-	soluDiv.setAttribute("class","w3-block w3-opacity"); 
-
-	let answDiv = document.createElement("div");
-	answDiv.setAttribute("class","w3-block fa-2x"); 
-
-	let _solutionTxt = document.createTextNode(_solution+' =');
-	let _answerTxt = document.createTextNode(_answer);
-
-	let _historyParent = document.querySelector('#historyTab');
-
-	if (_answer!=null && _solution!=null) {
-
-		_historyParent.appendChild(paraDiv);
-
-		paraDiv.appendChild(soluDiv);
-		paraDiv.appendChild(answDiv);
-
-		answDiv.appendChild(_answerTxt);
-		soluDiv.appendChild(_solutionTxt);
-
-		return;
-
+  
+	const paraDiv = document.createElement("div");
+	paraDiv.classList.add("w3-bar-item", "w3-right-align", "w3-hover-light-grey", "history-pill");
+  
+	const soluDiv = document.createElement("div");
+	soluDiv.classList.add("w3-block", "w3-opacity");
+  
+	const answDiv = document.createElement("div");
+	answDiv.classList.add("w3-block", "fa-2x");
+  
+	const solutionTxt = document.createTextNode(`${solution} =`);
+	const answerTxt = document.createTextNode(answer);
+  
+	const historyParent = document.querySelector('#historyTab');
+  
+	if (answer !== null && solution !== null) {
+	  historyParent.appendChild(paraDiv);
+	  paraDiv.appendChild(soluDiv);
+	  paraDiv.appendChild(answDiv);
+	  answDiv.appendChild(answerTxt);
+	  soluDiv.appendChild(solutionTxt);
 	}
-
-	return;
-}
+  }
 
 function w3_dropdown(id) {
   let x = document.getElementById(id);
