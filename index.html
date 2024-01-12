@@ -8,16 +8,16 @@
     <title> CALCULATOR </title>
     <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no, user-scalable=no">
     <link rel="shortcut icon" type="image/x-icon" href="favicon.png" />
-    <link rel="apple-touch-icon" sizes="64x64" href="favicon.png">
+    <link rel="apple-touch-icon" size="64x64" href="favicon.png">
     <link rel="stylesheet" type="text/css" href="https://cdnjs.cloudflare.com/ajax/libs/w3-css/4.1.0/w3.min.css">
     <link rel="stylesheet" type="text/css" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.2.0/css/all.min.css">
     <link rel="stylesheet" type="text/css" href="css/basic-calculator.css">
 </head>
 <body>
-    <div class="calc-container w3-block w3-container">    
+    <div class="calc-container w3-block w3-container">
         <div class="calc-header w3-bar w3-padding-small">
             <div class="w3-block w3-padding w3-medium">
-                <span class="w3-left"><i class="fa fa-archive"></i>&nbsp;Calculator</span>
+                <span class="w3-left"><i class="fa fa-archive"></i> Calculator</span>
                 <div class="w3-clear"></div>
             </div>
 
@@ -29,7 +29,7 @@
 
             <button class="w3-bar-item w3-button w3-right w3-hover-none w3-hover-text-red w3-hide-small" id="historyClear">
                 <i class="fa fa-trash"></i>
-                <span>Clear</span>
+                <span>Delete</span>
             </button>
             <button class="w3-bar-item w3-button w3-right w3-hover-none w3-hover-text-red" id="historyVClear" style="display:none;">
                 <i class="fa fa-trash"></i>
@@ -43,7 +43,7 @@
                 <i class="fa fa-history"></i>
                 <span><strong>History</strong></span>
             </button>
-            <button id="toggleHistoryShadeBack" class="w3-bar-item w3-right w3-button w3-hover-none w3-hover-text-blue w3-hide-medium w3-hide-large" style="display:none;">
+            <button id="toggleHistoryShadeBack" class="w3-bar-item w3-right w3-button w3-hover-none w3-hover-text-blue w3-hide-medium w3-hide-large" style="display:none ;">
                 <i class="fa fa-chevron-left"></i>
             </button>
         </div>
@@ -54,7 +54,7 @@
                     <div class="w3-padding-24">
                         <div class="w3-bar-block">
                             <input id="solutionDisplay" class="w3-bar-item w3-transparent w3-right-align w3-padding-small" disabled="true" type="text">
-                            <input id="currentDisplay" class="w3-bar-item w3-transparent w3-right-align" style="padding:0;font-weight:bold;font-size:2.5em" type="text" name="" maxlength="" value="">
+                            <input id="currentDisplay" class="w3-bar-item w3-transparent w3-right-align" style="padding:0;font-weight:bold;font-size:2.5em" type="text" name ="" maxlength="" value="">
                         </div>
                     </div>
                     <div id="layoutDiv" class="w3-block grid-cell grid-cell-4 grid-cell-gap-2 calc-main-body"></div>
@@ -71,9 +71,9 @@
                         <i class="fa fa-times"></i>
                     </button>
                     <div class="w3-bar-item">
-                        <span class="w3-block w3-opacity">Add-Ins</span>
+                        <span class="w3-block w3-opacity">Plugins</span>
                         <button id="darkModeBtn" class="w3-bar-item w3-button w3-hover-light-grey">
-                            <i class="fa fa-sun"></i>&nbsp;Light Mode
+                            <i class="fa fa-sun"></i> Light mode
                         </button>
                     </div>
                     <div class="w3-bar-item">
@@ -82,11 +82,11 @@
                             Font: <input type="color" id="fontColor" onchange="changeFontColor(this.value)">
                         </div>
                         <div disabled="true" class="w3-bar-item w3-button w3-hover-light-grey">
-                            Background Color: <input type="color" id="bgColor" onchange="changeBackgroundColor(this.value)">
+                            Background color: <input type="color" id="bgColor" onchange="changeBackgroundColor(this.value)">
                         </div>
                     </div>
                     <div class="w3-bar-item">
-                        <p class="w3-opacity w3-small w3-center">&copy; 2024</p>
+                        <p class="w3-opacity w3-small w3-center">© 2024</p>
                     </div>
                 </div>
         </div>

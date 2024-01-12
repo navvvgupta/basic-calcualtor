@@ -1,4 +1,4 @@
-let _gridButton = [
+let grid_btn = [
 	{ name: 'cdl', value: 'CE', type: 'clear' },
 	{ name: 'del', value: 'C', type: 'clear' },
 	{ name: 'bsp', value: '<i class=\'fa fa-backspace\'></i>', type: 'clear', code: [8, null] },
@@ -24,28 +24,28 @@ let _gridButton = [
 let _calc_main_body = document.querySelector('.calc-main-body');
 
 function drawBtnGrid(options) {
-    const btnArr = options.btns || _gridButton;
+    const btn_arr = options.btns || grid_btn;
     const calMode = options.mode || 'basic';
     const cMode = (calMode === 'advanced') ? 1 : 0;
 
-    for (let i = 0; i < btnArr.length; i++) {
-        const _btn_hover = (btnArr[i].type === 'operand' || btnArr[i].type === 'equals') ? 'w3-hover-blue' : 'w3-hover-light-grey';
-        const _btn_bg = (btnArr[i].type === 'number') ? 'w3-white' : 'w3-glass';
-        const _btn_style = (btnArr[i].type === 'number') ? 'font-weight:bold;' : 'font-weight:lighter;';
-        let _btn_value = (btnArr[i].type === 'operand' || btnArr[i].type === 'equals') ? btnArr[i].value : btnArr[i].value;
+    for (let i = 0; i < btn_arr.length; i++) {
+        const _btn_hover = (btn_arr[i].type === 'operand' || btn_arr[i].type === 'equals') ? 'w3-hover-blue' : 'w3-hover-light-grey';
+        const _btn_bg = (btn_arr[i].type === 'number') ? 'w3-white' : 'w3-glass';
+        const _btn_style = (btn_arr[i].type === 'number') ? 'font-weight:bold;' : 'font-weight:lighter;';
+        let _btn_value = (btn_arr[i].type === 'operand' || btn_arr[i].type === 'equals') ? btn_arr[i].value : btn_arr[i].value;
 
-        if (btnArr[i].type === 'dot' || btnArr[i].type === 'clear') {
-            _btn_value = btnArr[i].value;
+        if (btn_arr[i].type === 'dot' || btn_arr[i].type === 'clear') {
+            _btn_value = btn_arr[i].value;
         }
 
-        const buttonHTML = `<button style="${_btn_style}" class="w3-button ${btnArr[i].type} ${_btn_bg} ${_btn_hover}" value="${_btn_value}">${btnArr[i].value}</button>`;
+        const buttonHTML = `<button style="${_btn_style}" class="w3-button ${btn_arr[i].type} ${_btn_bg} ${_btn_hover}" value="${_btn_value}">${btn_arr[i].value}</button>`;
         _calc_main_body.insertAdjacentHTML('beforeend', buttonHTML);
     }
 }
 
 drawBtnGrid({
 	mode : 'basic',
-	btns : _gridButton
+	btns : grid_btn
 });
 
 let solutionDisplay = document.querySelector('#solutionDisplay');
@@ -354,7 +354,7 @@ window.addEventListener('keydown', function (e) {
 
     let _theCharCode = e.which || e.keyCode;
 
-    let _expectedKeys = _gridButton.filter(nxt => nxt && nxt.code);
+    let _expectedKeys = grid_btn.filter(nxt => nxt && nxt.code);
 
     for (let i = 0; i < _expectedKeys.length; i++) {
         let codeArray = _expectedKeys[i].code;
