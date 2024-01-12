@@ -23,25 +23,25 @@ let _gridButton = [
 
 let _calc_main_body = document.querySelector('.calc-main-body');
 
-let drawBtnGrid = function (options) {
-	let btnArr = options.btns || _gridButton;
-	let calMode = options.mode || 'basic';
-	let cMode = calMode === 'advanced' ? 1 : 0;
+function drawBtnGrid(options) {
+    const btnArr = options.btns || _gridButton;
+    const calMode = options.mode || 'basic';
+    const cMode = (calMode === 'advanced') ? 1 : 0;
 
-	for (let i = 0; i < btnArr.length; i++) {
-		let _btn_hover = btnArr[i].type === 'operand' || btnArr[i].type === 'equals' ? 'w3-hover-blue' : 'w3-hover-light-grey';
-		let _btn_bg = btnArr[i].type === 'number' ? 'w3-white' : 'w3-glass';
-		let _btn_style = btnArr[i].type === 'number' ? 'font-weight:bold;' : 'font-weight:lighter;';
-		let _btn_value = (btnArr[i].type === 'operand' || btnArr[i].type === 'equals') ? btnArr[i].value : btnArr[i].value;
+    for (let i = 0; i < btnArr.length; i++) {
+        const _btn_hover = (btnArr[i].type === 'operand' || btnArr[i].type === 'equals') ? 'w3-hover-blue' : 'w3-hover-light-grey';
+        const _btn_bg = (btnArr[i].type === 'number') ? 'w3-white' : 'w3-glass';
+        const _btn_style = (btnArr[i].type === 'number') ? 'font-weight:bold;' : 'font-weight:lighter;';
+        let _btn_value = (btnArr[i].type === 'operand' || btnArr[i].type === 'equals') ? btnArr[i].value : btnArr[i].value;
 
-		if (btnArr[i].type === 'dot' || btnArr[i].type === 'clear') {
-			_btn_value = btnArr[i].value;
-		}
+        if (btnArr[i].type === 'dot' || btnArr[i].type === 'clear') {
+            _btn_value = btnArr[i].value;
+        }
 
-		let buttonHTML = `<button style="${_btn_style}" class="w3-button ${btnArr[i].type} ${_btn_bg} ${_btn_hover}" value="${_btn_value}">${btnArr[i].value}</button>`;
-		_calc_main_body.insertAdjacentHTML('beforeend', buttonHTML);
-	}
-};
+        const buttonHTML = `<button style="${_btn_style}" class="w3-button ${btnArr[i].type} ${_btn_bg} ${_btn_hover}" value="${_btn_value}">${btnArr[i].value}</button>`;
+        _calc_main_body.insertAdjacentHTML('beforeend', buttonHTML);
+    }
+}
 
 drawBtnGrid({
 	mode : 'basic',
@@ -131,35 +131,24 @@ _evalBtn[0].addEventListener('click', function(){
 	solutionDisplay.value = null;
 });
 
-let addInputValue = function (cval) {
-	let _maxLength = currentDisplay.getAttribute('maxlength') || 9;
-	if (currentDisplay.value.length > _maxLength) {
-		return;
-	}
+function addInputValue(cval) {
+    const maxLength = currentDisplay.getAttribute('maxlength') || 9;
 
-	if (cval && currentDisplay) {
-		if (currentDisplay.value==0 && addNewValue==false) {
-			if (cval=='.') {
-				currentDisplay.value = 0 + cval;
-			} else {
-				if (currentDisplay.value.indexOf('.') > -1) {
-					currentDisplay.value += cval;
-				} else{
-					currentDisplay.value = cval;
-				}
-			}
-		} else {
-			if (addNewValue==true) {
-				if (cval.indexOf('.') > -1) {
-					currentDisplay.value += cval;
-				} else{
-					currentDisplay.value = cval;
-				}
-			} else {
-				currentDisplay.value += cval;
-			}
-		}
-	} 
+    if (currentDisplay.value.length > maxLength) {
+        return;
+    }
+
+    if (cval && currentDisplay) {
+        if (currentDisplay.value == '0' && !addNewValue) {
+            currentDisplay.value = (cval === '.') ? '0' + cval : (currentDisplay.value.includes('.') ? currentDisplay.value + cval : cval);
+        } else {
+            if (addNewValue) {
+                currentDisplay.value = (cval.includes('.') ? currentDisplay.value + cval : cval);
+            } else {
+                currentDisplay.value += cval;
+            }
+        }
+    }
 }
 
 let sanitizeStep = function(t) {
@@ -175,37 +164,21 @@ let isNumOdd = function(x){
 	return false;
 }
 
-let evalAndReturn = function (cvl) {
-	let work = cvl;
-	let workShow;
+function evalAndReturn(cvl) {
+    let workShow = cvl.replace(/×/g, '*').replace(/÷/g, '/');
 
-	let checkTimes = work.indexOf('×') || null;
-	let checkDiv = work.indexOf('÷') || null;
+    let answerDerived = eval(workShow);
 
-	workShow = work;
+    currentDisplay.value = String(answerDerived).indexOf('.') > 0
+        ? answerDerived.toFixed(5)
+        : answerDerived;
 
-	if(checkTimes!=null) {
-		workShow = workShow.split('×').join('*');
-	} 
-
-	if(checkTimes!=null) {
-		workShow = workShow.split('÷').join('/');
-	}
-
-	let answerDerived = eval(workShow);
-
-	if (String(answerDerived).indexOf('.') > 0) {
-		currentDisplay.value = answerDerived.toFixed(5);
-	} else {
-		currentDisplay.value = answerDerived;
-	}
-	if (cvl.trim().length > 4) {
-		createHistoryPill({
-			solution : cvl,
-			answer : answerDerived
-		});
-	}
-	
+    if (cvl.trim().length > 4) {
+        createHistoryPill({
+            solution: cvl,
+            answer: answerDerived
+        });
+    }
 }
 
 let refreshHistoryTab = function () {
@@ -376,78 +349,73 @@ if (_toggleHistoryShade && _historyShade && _buttonShade && _historyVClear && _t
 	});
 }
 
-window.addEventListener('keydown',function (e) {
-	
-	e.preventDefault();
+window.addEventListener('keydown', function (e) {
+    e.preventDefault();
 
-	let _theCharCode;
-	if (e.which) {
-		_theCharCode = e.which;
-	} else {
-		_theCharCode = e.keyCode;
-	}
+    let _theCharCode = e.which || e.keyCode;
 
-	let _expectedKeys = _gridButton.filter(function (nxt) {
-		return nxt && nxt.code;	
-	});
-	if (_expectedKeys) {
-		for (let i = 0; i < _expectedKeys.length; i++) {
-			if (_expectedKeys[i].code[0] != null) { 
-				if ( (_expectedKeys[i].code[0] == _theCharCode) || (_expectedKeys[i].code[1] ==  _theCharCode) ) {
+    let _expectedKeys = _gridButton.filter(nxt => nxt && nxt.code);
 
-					let _idElem = null;
-					if(_expectedKeys[i].type == 'number'){
-						_idElem = '.number[value="'+_expectedKeys[i].value+'"]';
-					} else if (_expectedKeys[i].type == 'operand') {
-						_idElem = '.operand[value="'+_expectedKeys[i].value+'"]';
-					} else if (_expectedKeys[i].type == 'clear') {
-						_idElem = '.clear[value="'+_expectedKeys[i].value+'"]';
-					} else if (_expectedKeys[i].type == 'dot') {
-						_idElem = '.dot[value="'+_expectedKeys[i].value+'"]';
-					} else if (_expectedKeys[i].type == 'equals') {
-						_idElem = '.equals[value="'+_expectedKeys[i].value+'"]';
-					}
+    for (let i = 0; i < _expectedKeys.length; i++) {
+        let codeArray = _expectedKeys[i].code;
+        if (codeArray[0] !== null && (codeArray[0] === _theCharCode || codeArray[1] === _theCharCode)) {
+            let _idElem = null;
+            switch (_expectedKeys[i].type) {
+                case 'number':
+                    _idElem = `.number[value="${_expectedKeys[i].value}"]`;
+                    break;
+                case 'operand':
+                    _idElem = `.operand[value="${_expectedKeys[i].value}"]`;
+                    break;
+                case 'clear':
+                    _idElem = `.clear[value="${_expectedKeys[i].value}"]`;
+                    break;
+                case 'dot':
+                    _idElem = `.dot[value="${_expectedKeys[i].value}"]`;
+                    break;
+                case 'equals':
+                    _idElem = `.equals[value="${_expectedKeys[i].value}"]`;
+                    break;
+            }
 
-					if (_idElem!=null) {
-						let _catchElem = document.querySelector(_idElem);
-						if (_catchElem) {
-							_catchElem.click();
-						}
-					}
+            if (_idElem !== null) {
+                let _catchElem = document.querySelector(_idElem);
+                if (_catchElem) {
+                    _catchElem.click();
+                }
+            }
 
-					break;
-				} 
-			} else if (_expectedKeys[i].code[0] == null) {
-				if ( (_expectedKeys[i].code[1] ==  _theCharCode) ) {
-					let _idElem = null;
-					if(_expectedKeys[i].type == 'number'){
-						_idElem = '.number[value="'+_expectedKeys[i].value+'"]';
-					} else if (_expectedKeys[i].type == 'operand') {
-						_idElem = '.operand[value="'+_expectedKeys[i].value+'"]';
-					} else if (_expectedKeys[i].type == 'clear') {
-						_idElem = '.clear[value="'+_expectedKeys[i].value+'"]';
-					} else if (_expectedKeys[i].type == 'dot') {
-						_idElem = '.dot[value="'+_expectedKeys[i].value+'"]';
-					} else if (_expectedKeys[i].type == 'equals') {
-						_idElem = '.equals[value="'+_expectedKeys[i].value+'"]';
-					}
+            break;
+        } else if (codeArray[0] === null && codeArray[1] === _theCharCode) {
+            let _idElem = null;
+            switch (_expectedKeys[i].type) {
+                case 'number':
+                    _idElem = `.number[value="${_expectedKeys[i].value}"]`;
+                    break;
+                case 'operand':
+                    _idElem = `.operand[value="${_expectedKeys[i].value}"]`;
+                    break;
+                case 'clear':
+                    _idElem = `.clear[value="${_expectedKeys[i].value}"]`;
+                    break;
+                case 'dot':
+                    _idElem = `.dot[value="${_expectedKeys[i].value}"]`;
+                    break;
+                case 'equals':
+                    _idElem = `.equals[value="${_expectedKeys[i].value}"]`;
+                    break;
+            }
 
-					if (_idElem!=null) {
-						let _catchElem = document.querySelector(_idElem);
-						if (_catchElem) {
-							_catchElem.click();
-						}
-					}
+            if (_idElem !== null) {
+                let _catchElem = document.querySelector(_idElem);
+                if (_catchElem) {
+                    _catchElem.click();
+                }
+            }
 
-					break;
-				} 
-			}
-
-			continue;
-
-		}
-	}
-
+            break;
+        }
+    }
 });
 	
 function changeFontColor(code) {
